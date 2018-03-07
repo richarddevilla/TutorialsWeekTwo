@@ -25,7 +25,7 @@ def validateDOB(dob):
     #Takes a string argument and try to parse it as datetime object
     #Returns datetime object if parsing succeeds
         dobParsed = datetime.strptime(dob, '%d/%m/%Y')
-        assert dobParsed < datetime.now(),print('Please input a valid date of birth!')
+        assert dobParsed < datetime.now()
         return dobParsed
 
 
@@ -93,9 +93,9 @@ if __name__ == '__main__':
         dob = inputDOB()
         age = calculateAge(dob)
         password = generatePassword(dob,age,name)
-        print('Hi! ' + name)
+        print('Hi! {}'.format(name))
         print('You are {} years old!'.format(round(age,2)))
-        print('Your password is : ' + password)
+        print('Your password is : {}'.format(password))
 
         tryAgain = input('Press Y to try again!')
         if not tryAgain.upper() == 'Y':
