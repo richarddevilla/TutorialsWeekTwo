@@ -1,14 +1,18 @@
 import weekTwoBronze as w2b
-import tkinter as tk
+from tkinter import StringVar
+from tkinter import Tk
 from tkinter import ttk
 from tkinter import messagebox as msg
 from tkcalendar import DateEntry
 
+# Function to create a Tkinter window
 def createWindow():
-    mainWindow = tk.Tk()
+    mainWindow = Tk()
     mainWindow.title('PASSWORD GENERATOR')
     return mainWindow
 
+# Function to create the widgets of the mainwindow.
+# Their position, default value and behavior
 def createEntryWidget(mainWindow):
 
     entryFrame = ttk.LabelFrame(mainWindow)
@@ -21,7 +25,7 @@ def createEntryWidget(mainWindow):
     nameEntry = ttk.Entry(entryFrame,textvariable = nameVar,width=30)
     nameEntry.bind("<FocusIn>", lambda e:nameVar.set(''))
     dobEntry = DateEntry(entryFrame,width=28,textvariable=dobVar)
-    ageEntry = ttk.Entry(entryFrame,textvariable = ageVar,state='readonly')
+    ageEntry = ttk.Entry(entryFrame,textvariable = ageVar,state='readonly',width=30)
     passEntry = ttk.Entry(entryFrame,textvariable=passVar,state='readonly')
 
     nameLabel.grid(column=0,row=0,sticky='E')
@@ -39,9 +43,10 @@ def createEntryWidget(mainWindow):
     confirmButton = ttk.Button(buttonFrame,text='Confirm',command=validateEntry)
     confirmButton.grid(column=0,row=0)
 
-
+# Function uses methods from weekTwoBronze module to validate dob and name,# calculate age and generate password
+# Upon successful validation function asigns the age to ageVar and password to passVar
 def validateEntry():
-
+    validDOB=False
     try:
         validDOB = w2b.validateDOB(dobVar.get())
     except ValueError:
@@ -58,11 +63,12 @@ def validateEntry():
         ageVar.set(age)
         passVar.set(w2b.generatePassword(validDOB,age,validName))
 
-
-mainWindow = createWindow()
-nameVar = tk.StringVar(value='No special characters/space')
-dobVar = tk.StringVar()
-passVar = tk.StringVar()
-ageVar = tk.StringVar(value='Click Confirm to Calculate Age')
-createEntryWidget(mainWindow)
-mainWindow.mainloop()
+#Initialize the StringVars and mainWindows's widget then run the mainloop
+if __name__ == '__main__':
+    mainWindow = createWindow()
+    nameVar = StringVar(value='No special characters/space')
+    dobVar = StringVar()
+    passVar = StringVar()
+    ageVar = StringVar(value='Click Confirm to Calculate Age')
+    createEntryWidget(mainWindow)
+    mainWindow.mainloop()

@@ -53,6 +53,7 @@ def inputName():
         validName = validateName(name)
         if validName:
             break
+        print('Please do not use special characters or spaces for name')
     return validName
 
 def validateName(name):
@@ -68,7 +69,10 @@ def validateName(name):
 def generatePassword(dob,age,name):
 
     # Function takes dob as a datetime object, age as an integer, string as required paramater
-    # Function combine arguments and translate it to string then to binary string
+    # Function add arguments and convert it to string then to it's binary value and stored as string
+    # The stored binary string is then converted to a single Integer which would be used as a key for a shift cipher
+    # Function formats dob as ddmmyy and is used as the plaintext for the shift cipher
+    # Function uses ascii 33 to ascii 126 as set for the the shift cipher
     passwordLength = 6
     fullInfo = str(dob) + str(age) + name
     basePassword = datetime.strftime(dob,'%d%m%y')
@@ -81,7 +85,7 @@ def generatePassword(dob,age,name):
     counter = 0
     password = ''
     while not len(password) == passwordLength:
-        shiftKey = (int(basePassword[counter]) + cipherKey) % 96
+        shiftKey = (int(basePassword[counter]) + cipherKey) % 94
         password += chr(32+shiftKey)
         counter += 1
     return password
