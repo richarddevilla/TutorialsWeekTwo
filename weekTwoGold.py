@@ -59,12 +59,10 @@ def validateEntry():
         passVar.set(w2b.generatePassword(validDOB,age,validName))
 
 
-
+mainWindow = createWindow()
 nameVar = tk.StringVar(value='No special characters/space')
 dobVar = tk.StringVar()
 passVar = tk.StringVar()
 ageVar = tk.StringVar(value='Click Confirm to Calculate Age')
-
-mainWindow = createWindow()
 createEntryWidget(mainWindow)
 mainWindow.mainloop()
