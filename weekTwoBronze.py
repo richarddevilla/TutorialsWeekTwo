@@ -7,38 +7,39 @@ def inputDOB():
 
     while True:
         dob = input('Input your date of birth(dd/mm/yyyy): ')
-        validDOB = validateDOB(dob)
+        validDOB=''
+        try:
+            validDOB = validateDOB(dob)
+        except ValueError:
+            print('Please input a valid date of birth!')
+        except AssertionError:
+            print('You cannot use future date!')
+        except:
+            print('Unexpected error! Please try again.')
         if validDOB:
             break
     return validDOB
 
 def validateDOB(dob):
 
-    #Takes a string argument and try to parse is as datetime object
-    #Returns False if the string cannot be parsed as datetime and display a prompt of the error
+    #Takes a string argument and try to parse it as datetime object
     #Returns datetime object if parsing succeeds
-
-    try:
         dobParsed = datetime.strptime(dob, '%d/%m/%Y')
-        assert dobParsed < datetime.now()
+        assert dobParsed < datetime.now(),print('Please input a valid date of birth!')
         return dobParsed
-    except ValueError:
-        print('Please input a valid date of birth!')
-    except AssertionError:
-        print('You cannot use future date ' + datetime.strftime(dobParsed, '%d/%m/%Y') + '.')
-    except:
-        print('Unexpected error! Please try again.')
-    return False
+
 
 def calculateAge(validDOB):
 
     #Function to caculate age by subtracting DOB year to Current year
     #and check whether the user had his birthday for the current year if not deduct 1 to age
-    #Returns an integer age
+    #Returns an integer/float age
 
     currentDate = datetime.now()
     age = currentDate.year - validDOB.year
-    if (currentDate.month, currentDate.day) < (validDOB.month, validDOB.day):
+    if age == 0:
+        age = (currentDate-validDOB).days/365.25
+    elif (currentDate.month, currentDate.day) < (validDOB.month, validDOB.day):
         age -= 1
     return age
 
@@ -86,13 +87,18 @@ def generatePassword(dob,age,name):
         counter += 1
     return password
 
+if __name__ == '__main__':
+    while True:
+        name = inputName()
+        dob = inputDOB()
+        age = calculateAge(dob)
+        password = generatePassword(dob,age,name)
+        print('Hi! ' + name)
+        print('You are {} years old!'.format(round(age,2)))
+        print('Your password is : ' + password)
 
-name = inputName()
-dob = inputDOB()
-age = calculateAge(dob)
-password = generatePassword(dob,age,name)
-print('Hi! ' + name)
-print('You are ' + str(age) + ' years old')
-print('Your password is : ' + password)
+        tryAgain = input('Press Y to try again!')
+        if not tryAgain.upper() == 'Y':
+            break
 
 
