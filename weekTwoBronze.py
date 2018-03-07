@@ -63,7 +63,6 @@ def validateName(name):
     if name.isalpha():
         return name
     else:
-        print('Please input letters only!')
         return False
 
 def generatePassword(dob,age,name):
