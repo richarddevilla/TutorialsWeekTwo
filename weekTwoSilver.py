@@ -43,8 +43,11 @@ def createEntryWidget(mainWindow):
     confirmButton = ttk.Button(buttonFrame,text='Confirm',command=validateEntry)
     confirmButton.grid(column=0,row=0)
 
-# Function uses methods from weekTwoBronze module to validate dob and name,# calculate age and generate password
-# Upon successful validation function asigns the age to ageVar and password to passVar
+# Function uses methods from weekTwoBronze module to validate dob and name, calculate age and generate password
+# Upon successful validation function assigns the age to ageVar and password to passVar
+# raise a ValueError if the user inputs an invalid date or format of date
+# raise an AssertionError if the user inputs a date in the future
+# raise an Exeption for any unexpected error and print the Error type
 def validateEntry():
     validDOB=False
     try:
@@ -53,8 +56,8 @@ def validateEntry():
         msg.showerror('Error!', 'Please input a valid date of birth!')
     except AssertionError:
         msg.showerror('Error!', 'You cannot use future date!')
-    except:
-        msg.showerror('Error!', 'Unexpected error! Please try again.')
+    except Exception as e:
+        msg.showerror('Error!', 'Unexpected error! Please try again.'+str(e))
     validName = w2b.validateName(nameVar.get())
     if validName == False:
         msg.showerror('Error!', 'No special characters/space on names')
